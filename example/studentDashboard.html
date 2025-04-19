@@ -1,0 +1,111 @@
+<template>
+    <lightning-card title="Student Dashboard" icon-name="standard:education">
+        <!-- Header with refresh button -->
+        <div slot="actions">
+            <lightning-button label="Refresh" icon-name="utility:refresh" onclick={handleRefresh}></lightning-button>
+        </div>
+        
+        <!-- Loading spinner -->
+        <template if:true={isLoading}>
+            <div class="slds-is-relative slds-m-around_medium">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+        
+        <!-- Error display -->
+        <template if:true={error}>
+            <div class="slds-m-around_medium slds-text-color_error">
+                Error: {error.body.message}
+            </div>
+        </template>
+        
+        <!-- Student Information -->
+        <template if:false={isLoading}>
+            <div class="slds-p-horizontal_small">
+                <div class="slds-grid slds-gutters slds-wrap">
+                    <!-- Student Overview -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <div class="slds-box slds-theme_shade slds-m-bottom_medium">
+                            <h2 class="slds-text-heading_medium slds-m-bottom_small">Student Overview</h2>
+                            <dl class="slds-dl_horizontal">
+                                <dt class="slds-dl_horizontal__label slds-text-color_weak">Name:</dt>
+                                <dd class="slds-dl_horizontal__detail">{studentName}</dd>
+                                <dt class="slds-dl_horizontal__label slds-text-color_weak">Department:</dt>
+                                <dd class="slds-dl_horizontal__detail">{studentDepartment}</dd>
+                                <dt class="slds-dl_horizontal__label slds-text-color_weak">Email:</dt>
+                                <dd class="slds-dl_horizontal__detail">{studentEmail}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    
+                    <!-- Academic Metrics -->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <div class="slds-box slds-theme_shade slds-m-bottom_medium">
+                            <h2 class="slds-text-heading_medium slds-m-bottom_small">Academic Metrics</h2>
+                            <dl class="slds-dl_horizontal">
+                                <dt class="slds-dl_horizontal__label slds-text-color_weak">GPA:</dt>
+                                <dd class="slds-dl_horizontal__detail">
+                                    <span class={gpaColorClass}>{studentGpa}</span>
+                                </dd>
+                                <dt class="slds-dl_horizontal__label slds-text-color_weak">Total Credits:</dt>
+                                <dd class="slds-dl_horizontal__detail">{studentTotalCredits}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Performance Data -->
+                <div class="slds-box slds-m-top_medium">
+                    <h2 class="slds-text-heading_medium slds-m-bottom_small">Course Performance</h2>
+                    
+                    <template if:false={hasPerformanceData}>
+                        <div class="slds-text-color_weak slds-align_absolute-center">
+                            No performance data available
+                        </div>
+                    </template>
+                    
+                    <template if:true={hasPerformanceData}>
+                        <div class="slds-m-top_medium">
+                            <!-- Performance Chart would be rendered here with a 3rd party library -->
+                            <div class="chart-container" style="height: 250px;">
+                                <!-- This would be initialized in renderedCallback() in real implementation -->
+                                Chart visualization of performance by course
+                            </div>
+                        </div>
+                        
+                        <div class="slds-m-top_medium">
+                            <lightning-datatable
+                                key-field="id"
+                                data={performanceData}
+                                columns={performanceColumns}
+                                hide-checkbox-column>
+                            </lightning-datatable>
+                        </div>
+                    </template>
+                </div>
+                
+                <!-- Engagement Data -->
+                <div class="slds-box slds-m-top_medium">
+                    <h2 class="slds-text-heading_medium slds-m-bottom_small">Student Engagement</h2>
+                    
+                    <template if:false={hasEngagementData}>
+                        <div class="slds-text-color_weak slds-align_absolute-center">
+                            No engagement data available
+                        </div>
+                    </template>
+                    
+                    <template if:true={hasEngagementData}>
+                        <div class="slds-m-top_medium">
+                            <lightning-datatable
+                                key-field="id"
+                                data={engagementData}
+                                columns={engagementColumns}
+                                hide-checkbox-column>
+                            </lightning-datatable>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </lightning-card>
+</template>

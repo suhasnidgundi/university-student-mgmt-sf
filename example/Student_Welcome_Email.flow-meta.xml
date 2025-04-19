@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <description>Sends a welcome email when a new student is created</description>
+    <interviewLabel>Student Welcome Email {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Student Welcome Email</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Email_Present</targetReference>
+        </connector>
+        <object>Student__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <decisions>
+        <name>Check_Email_Present</name>
+        <label>Check Email Present</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Log_Email_Missing</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Email</defaultConnectorLabel>
+        <rules>
+            <name>Email_Present</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Email__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Welcome_Email</targetReference>
+            </connector>
+            <label>Email Present</label>
+        </rules>
+    </decisions>
+    <actionCalls>
+        <name>Send_Welcome_Email</name>
+        <label>Send Welcome Email</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Student__c.Welcome_Email_Template</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <recordCreates>
+        <name>Log_Email_Missing</name>
+        <label>Log Email Missing</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <stringValue>Unable to send welcome email to new student due to missing email
+                    address</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Medium</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Missing Email for Student: {!$Record.Name}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordCreates>
+    <status>Active</status>
+</Flow>

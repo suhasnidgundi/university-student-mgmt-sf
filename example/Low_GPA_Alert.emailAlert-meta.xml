@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailAlert xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Email alert for students with low GPA</description>
+    <protected>false</protected>
+    <recipients>
+        <field>Email__c</field>
+        <type>email</type>
+    </recipients>
+    <recipients>
+        <recipient>admin@university.edu</recipient>
+        <type>user</type>
+    </recipients>
+    <senderType>DefaultWorkflowUser</senderType>
+    <template>Low_GPA_Alert_Template</template>
+</EmailAlert>

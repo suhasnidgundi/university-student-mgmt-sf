@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <description>Alerts when a student's GPA falls below threshold</description>
+    <interviewLabel>Low Performance Alert {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Low Performance Alert</label>
+    <processMetadataValues>
+        <n>BuilderType</n>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <n>CanvasMode</n>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_GPA_Threshold</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>GPA__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Student__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <decisions>
+        <n>Check_GPA_Threshold</n>
+        <label>Check GPA Threshold</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>GPA Above Threshold</defaultConnectorLabel>
+        <rules>
+            <n>GPA_Below_Threshold</n>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.GPA__c</leftValueReference>
+                <operator>LessThan</operator>
+                <rightValue>
+                    <numberValue>2.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Alert_Task</targetReference>
+            </connector>
+            <label>GPA Below Threshold</label>
+        </rules>
+    </decisions>
+    <recordCreates>
+        <n>Create_Alert_Task</n>
+        <label>Create Alert Task</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Send_Low_GPA_Email</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <stringValue>Student has a GPA below 2.0. Academic intervention may be required.</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>High</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Not Started</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <stringValue>Low GPA Alert: {!$Record.Name} - {!$Record.GPA__c}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordCreates>
+    <actionCalls>
+        <n>Send_Low_GPA_Email</n>
+        <label>Send Low GPA Email</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Student__c.Low_GPA_Alert</actionName>
+        <actionType>emailAlert</actionType>
+        <inputParameters>
+            <n>SObjectRowId</n>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <status>Active</status>
+</Flow>
