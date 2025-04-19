@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <available>true</available>
-    <description>Alert email for students with low GPA</description>
+    <description>Sent to students when GPA falls below acceptable level</description>
     <encodingKey>UTF-8</encodingKey>
-    <n>Low_GPA_Alert_Template</n>
+    <name>Low GPA Alert Template</name>
     <style>none</style>
-    <subject>Academic Performance Alert - GPA Below 2.0</subject>
-    <type>text</type>
+    <subject>Important: Academic Performance Alert</subject>
+    <type>custom</type>
     <uiType>Aloha</uiType>
 </EmailTemplate>

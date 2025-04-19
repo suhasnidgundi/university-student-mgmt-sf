@@ -1,1 +1,16 @@
-"Dear {!Student__c.Name}, This is a notification that your GPA has fallen below the required threshold. Please contact your academic advisor to discuss improvement plans. Regards, University Administration" 
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<p>Dear {!Student__c.Name},</p>
+
+<p>We noticed your GPA has dropped below the recommended threshold. 
+Please schedule an appointment with your academic advisor to discuss strategies for improvement.</p>
+
+<p>Current GPA: {!Student__c.GPA__c}</p>
+
+<p>Best regards,<br/>
+University Student Management Team</p>
+</body>
+</html>
