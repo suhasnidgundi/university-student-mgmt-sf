@@ -1,0 +1,1 @@
+"Dear {!Student__c.Name}, This is a notification that your GPA has fallen below the required threshold. Please contact your academic advisor to discuss improvement plans. Regards, University Administration" 
