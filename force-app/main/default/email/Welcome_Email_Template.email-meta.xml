@@ -3,7 +3,7 @@
     <available>true</available>
     <description>Welcome email for new students</description>
     <encodingKey>UTF-8</encodingKey>
-    <n>Welcome_Email_Template</n>
+    <name>Welcome_Email_Template</name>
     <style>none</style>
     <subject>Welcome to University, {!Student__c.Name}!</subject>
     <type>text</type>

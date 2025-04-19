@@ -1,0 +1,13 @@
+Dear {!Student__c.Name},
+
+Welcome to our University! We're excited to have you join our academic community.
+
+Your student ID is: {!Student__c.Student_ID__c}
+Department: {!Student__c.Department__c}
+
+Please log in to our student portal to complete your registration and view your class schedule.
+
+If you have any questions, don't hesitate to reach out to our student services team.
+
+Best regards,
+University Administration

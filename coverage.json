@@ -1,2 +1,12 @@
- Did you mean apex get log? [2m(Y/n)[22m[35G
-[?25h
+{
+  "name": "NoDefaultEnvError",
+  "message": "No default environment found. Use -o or --target-org to specify an environment.",
+  "exitCode": 1,
+  "context": "Test",
+  "stack": "NoDefaultEnvError: No default environment found. Use -o or --target-org to specify an environment.\n    at SfCommandError.from (file:///C:/Users/suhasnidgundi/AppData/Roaming/npm/node_modules/@salesforce/cli/node_modules/@salesforce/sf-plugins-core/lib/SfCommandError.js:39:16)\n    at Test.catch (file:///C:/Users/suhasnidgundi/AppData/Roaming/npm/node_modules/@salesforce/cli/node_modules/@salesforce/sf-plugins-core/lib/sfCommand.js:323:47)\n    at Test._run (C:\\Users\\suhasnidgundi\\AppData\\Roaming\\npm\\node_modules\\@salesforce\\cli\\node_modules\\@oclif\\core\\lib\\command.js:185:29)\n    at async Config.runCommand (C:\\Users\\suhasnidgundi\\AppData\\Roaming\\npm\\node_modules\\@salesforce\\cli\\node_modules\\@oclif\\core\\lib\\config\\config.js:456:25)\n    at async run (C:\\Users\\suhasnidgundi\\AppData\\Roaming\\npm\\node_modules\\@salesforce\\cli\\node_modules\\@oclif\\core\\lib\\main.js:96:16)\n    at async file:///C:/Users/suhasnidgundi/AppData/Roaming/npm/node_modules/@salesforce/cli/bin/run.js:15:1",
+  "cause": "undefined",
+  "warnings": [],
+  "code": "NoDefaultEnvError",
+  "status": 1,
+  "commandName": "Test"
+}
